@@ -1,5 +1,7 @@
 package Practica0;
 
+import java.lang.Math;
+
 public class Coche {
 	
 	private double miVelocidad; // Velocidad en pixels/segundo
@@ -62,5 +64,36 @@ public class Coche {
 	@Override
 	public String toString() {
 		return "Coche: " + piloto + ", " + posX + ", " + posY + ", " + miVelocidad + ", " + miDireccionActual ;
+	}
+	
+	double tiempo;
+	
+	
+	
+	/** Cambia la velocidad actual del coche
+	 * @param aceleracion Incremento de la velocidad en pixels/segundo
+	 */
+	
+	public void acelera( double aceleracion ) {
+		miVelocidad += 1;
+	}
+	
+	
+	 /** Cambia la dirección actual del coche
+	 * @param giro Angulo de giro a sumar o restar de la dirección actual, en grados (-180 a +180)
+	 */
+	 
+	public void gira( double giro ) {
+		miDireccionActual = Math.cos( miDireccionActual ) + Math.sin( miDireccionActual );
+	}
+	
+	
+	 /** Cambia la posición del coche dependiendo de su velocidad y dirección
+	 * @param tiempoDeMovimiento Tiempo transcurrido, en segundos
+	 */
+	 
+	public void mueve( double tiempoDeMovimiento ) {
+		posX =  miVelocidad * tiempo * Math.cos(miDireccionActual);
+		posY =  miVelocidad * tiempo * Math.sin(miDireccionActual);
 	}
 }
