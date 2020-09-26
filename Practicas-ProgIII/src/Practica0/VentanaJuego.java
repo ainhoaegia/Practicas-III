@@ -10,8 +10,10 @@ import javax.swing.JPanel;
 public class VentanaJuego extends JFrame{
 	
 	public static void main(String[] args) {
+		
 		VentanaJuego ventana = new VentanaJuego( "PRÁCTICA 0" );
 		ventana.setVisible(true);
+		
 	}
 	
 	private JPanel panelCentro;
