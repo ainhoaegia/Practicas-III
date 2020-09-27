@@ -12,42 +12,15 @@ public class JLabelCoche extends JLabel{
 	public static void main(String[] args) {
 		JFrame f = new JFrame( "Prueba JLabelCoche" );
 		f.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
-		// f.setLocation( 2000, 100 );   // Si se quiere cambiar la posición
 		f.getContentPane().setLayout( null );
 		JLabel label = new JLabel( new ImageIcon( "src/Practica0/coche.png" ) );
 		label.setBounds( 0, 0, 150, 150 );
 		JLabelCoche labelGrafico = new JLabelCoche( "/Practica0/coche.png", 100, 100 );
 		labelGrafico.setLocation( 400, 100 );
-			// TODO probar este 300, 300 con diferentes tamaños. Si x<=0 ajusta el ancho y si es y<=0 ajusta el alto
 		f.setSize( 600, 400 );
 		f.add( label );  // f.add es una simplificación de f.getContentPane().add  (es lo mismo)
 		f.add( labelGrafico );
 		f.setVisible( true );
-		try { Thread.sleep( 5000 ); } catch (Exception e) {}  // Espera 5 segundos
-		for (int rot=0; rot<=200; rot++ ) {
-			labelGrafico.setRotacion( rot*Math.PI/100 );
-			try { Thread.sleep( 20 ); } catch (Exception e) {}  // Espera dos décimas entre rotación y rotación
-		}
-		for (int op=-100; op<=100; op++ ) {
-			labelGrafico.setOpacidad( Math.abs(op*0.01f) );
-			try { Thread.sleep( 20 ); } catch (Exception e) {}  // Espera dos décimas entre cambio de transparencias
-		}
-		for (int op=0; op<99; op++ ) {
-			labelGrafico.setSize( labelGrafico.getAnchuraObjeto()-1, labelGrafico.getAlturaObjeto()-1 );
-			try { Thread.sleep( 20 ); } catch (Exception e) {}  // Espera dos décimas entre cambio de tamaño
-		}
-		for (int op=0; op<200; op++ ) {
-			labelGrafico.setSize( labelGrafico.getAnchuraObjeto()+1, labelGrafico.getAlturaObjeto()+1 );
-			try { Thread.sleep( 20 ); } catch (Exception e) {}  // Espera dos décimas entre cambio de tamaño
-		}
-		for (int op=0; op<100; op++ ) {
-			labelGrafico.setSize( labelGrafico.getAnchuraObjeto()-1, labelGrafico.getAlturaObjeto() );
-			try { Thread.sleep( 20 ); } catch (Exception e) {}  // Espera dos décimas entre aplastamiento de tamaño
-		}
-		for (int rot=0; rot<=200; rot++ ) {
-			labelGrafico.setRotacion( rot*Math.PI/100 );
-			try { Thread.sleep( 20 ); } catch (Exception e) {}  // Espera dos décimas entre rotación y rotación
-		}
 	}
 
 	// No static
