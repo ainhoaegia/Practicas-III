@@ -14,6 +14,7 @@ public class VentanaJuego extends JFrame{
 		VentanaJuego ventana = new VentanaJuego("PRÁCTICA 0");
 		ventana.setVisible( true );
 		
+		// Datos del Coche
 		Coche coche = new Coche( "Lewis Hamilton", 150.0, 100.0, 10.0, 0.0 );
 		System.out.println( coche.toString() );
 	}
@@ -31,21 +32,27 @@ public class VentanaJuego extends JFrame{
 	public VentanaJuego(String titulo) {
 		
 		super(titulo);
-		
 		this.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );  
 		this.setSize( 900, 300 );  
 		this.setLocationRelativeTo( null ); // CENTRAR LA VENTANA
 		
+		
+		// PANEL CENTRAL
+		
+		JLabelCoche jlabel = new JLabelCoche( "src/Practica0/coche.png", 100, 100 );
+		panelCentral.add( jlabel );
+		
+		this.add( panelCentral, BorderLayout.CENTER );
+		
+		// PANEL INFERIOR
 		
 		panelInferior.add(botonAcelera);
 		panelInferior.add(botonFrena);
 		panelInferior.add(botonGiraI);
 		panelInferior.add(botonGiraD);
 		
-		
 		panelInferior.setLayout(new GridLayout(1,4));
 		
-		this.add( panelCentral, BorderLayout.CENTER );
 		this.add( panelInferior, BorderLayout.SOUTH );
 		
 		
