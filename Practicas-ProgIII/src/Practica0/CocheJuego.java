@@ -3,7 +3,7 @@ package Practica0;
 public class CocheJuego extends Coche{
 	
 	JLabelCoche lCoche = new JLabelCoche("src/Practica0/coche.png", 100, 100);
-	
+	 
 	protected double miVelocidad; // Velocidad en pixels/segundo
 	protected double miDireccionActual; // Dirección en la que estoy mirando en grados (de 0 a 360)
 	protected double posX; // Posición en X (horizontal)

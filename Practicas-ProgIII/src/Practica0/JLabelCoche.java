@@ -20,7 +20,7 @@ public class JLabelCoche extends JLabel{
 		f.setSize( 600, 400 );
 		f.add( label );  // f.add es una simplificación de f.getContentPane().add  (es lo mismo)
 		f.add( labelGrafico );
-		f.setVisible( true );
+		f.setVisible( true ); 
 	}
 
 	// No static

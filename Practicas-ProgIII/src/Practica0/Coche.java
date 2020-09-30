@@ -3,7 +3,7 @@ package Practica0;
 import java.lang.Math;
 
 public class Coche {
-	
+	 
 	private double miVelocidad; // Velocidad en pixels/segundo
 	protected double miDireccionActual; // Dirección en la que estoy mirando en grados (de 0 a 360)
 	protected double posX; // Posición en X (horizontal)

@@ -95,5 +95,39 @@ public class VentanaJuego extends JFrame{
 			}
 				
 		});
+		
+		botonGiraI.addActionListener( new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				double giro = coche.getMiDireccionActual();
+				giro = giro - 10; // gira 10 grados a la izquierda.
+				
+				if (giro < 0 ) {
+					giro = 360 + giro;
+				} else if (giro > 371) {
+					giro = giro - 360;
+				} else if ( 360 < giro && giro < 370 ) {
+					giro = 370 - giro;
+				}
+				coche.setMiDireccionActual( giro );
+				System.out.println("Giro a la izquierda de "+ giro + " grados.");
+			}
+		});
+		
+		botonGiraD.addActionListener( new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				double giro = coche.getMiDireccionActual();
+				giro = giro + 10; // gira 10 grados a la derecha.
+				
+				if ( giro == 360 ) {
+					giro = 0;
+				}
+				coche.setMiDireccionActual( giro );
+				System.out.println("Giro a la derecha de "+ giro + " grados.");
+			}
+		});
 	}
 }
