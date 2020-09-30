@@ -2,6 +2,8 @@ package Practica0;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,6 +20,8 @@ public class VentanaJuego extends JFrame{
 		Coche coche = new Coche( "Lewis Hamilton", 150.0, 100.0, 10.0, 0.0 );
 		System.out.println( coche.toString() );
 	}
+	
+	Coche coche = new Coche( "Lewis Hamilton", 150.0, 100.0, 10.0, 0.0 );
 	
 	private JButton botonAcelera = new JButton("Acelera");
 	private JButton botonFrena = new JButton("Frena");
@@ -63,5 +67,32 @@ public class VentanaJuego extends JFrame{
 		botonGiraI.setFocusable( true );
 		botonGiraD.setFocusable( true );
 		
+		botonAcelera.addActionListener( new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				double vel = coche.getPosX();
+				vel += 5;
+				System.out.println( "Velocidad (acelerando): " + vel );				
+			}
+				
+		});
+		
+		botonFrena.addActionListener( new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				double vel = coche.getMiVelocidad();
+				
+				if( vel>5 ) { // si la velocidad es mayor que 5, se puede frenar de 5 en 5 pixel/seg
+					vel -= 5;
+				} else { // si la velocidad es menor que 5, está quieto o le queda poco para estarlo, por lo que se frena
+					vel = 0;
+				}
+				
+				System.out.println( "Velocidad (frenando): " + vel );
+			}
+				
+		});
 	}
 }
