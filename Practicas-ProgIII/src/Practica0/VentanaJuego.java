@@ -71,9 +71,10 @@ public class VentanaJuego extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				double vel = coche.getPosX();
-				vel += 5;
-				System.out.println( "Velocidad (acelerando): " + vel );				
+				double vel = coche.getMiVelocidad();
+				vel = vel + 5;
+				coche.setMiVelocidad( vel );
+				System.out.println( "Velocidad (acelerando): " + vel );
 			}
 				
 		});
@@ -85,11 +86,11 @@ public class VentanaJuego extends JFrame{
 				double vel = coche.getMiVelocidad();
 				
 				if( vel>5 ) { // si la velocidad es mayor que 5, se puede frenar de 5 en 5 pixel/seg
-					vel -= 5;
+					vel = vel-5;
 				} else { // si la velocidad es menor que 5, está quieto o le queda poco para estarlo, por lo que se frena
 					vel = 0;
 				}
-				
+				coche.setMiVelocidad( vel );
 				System.out.println( "Velocidad (frenando): " + vel );
 			}
 				
