@@ -31,6 +31,7 @@ public class MainEdicionSprites {
 		} catch (Exception e) {}
 		
 		log.log( Level.INFO, "Inicio Edicion Sprites " + (new Date() ));
+		
 		try {
 			try { // Cambiamos el look and feel (se tiene que hacer antes de crear la GUI
 				UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
