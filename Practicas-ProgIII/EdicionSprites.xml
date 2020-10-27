@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-10-27T18:34:54</date>
+  <millis>1603820094844</millis>
+  <sequence>0</sequence>
+  <logger>prueba_logger</logger>
+  <level>INFO</level>
+  <class>Practicas1y2.MainEdicionSprites</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>Inicio Edicion Sprites Tue Oct 27 18:34:54 CET 2020</message>
+</record>
+<record>
+  <date>2020-10-27T18:34:56</date>
+  <millis>1603820096109</millis>
+  <sequence>1</sequence>
+  <logger>prueba_logger</logger>
+  <level>FINER</level>
+  <class>Practicas1y2.ControladorVentanaSprites</class>
+  <method>anyadirSpriteASecuencia</method>
+  <thread>1</thread>
+  <message>Añadiendo sprite a secuencia: src\Practicas1y2\img\Attack__000.png</message>
+</record>
+<record>
+  <date>2020-10-27T18:34:56</date>
+  <millis>1603820096110</millis>
+  <sequence>2</sequence>
+  <logger>prueba_logger</logger>
+  <level>FINER</level>
+  <class>Practicas1y2.ControladorVentanaSprites</class>
+  <method>anyadirSpriteASecuencia</method>
+  <thread>1</thread>
+  <message>Añadiendo sprite a secuencia: src\Practicas1y2\img\Attack__001.png</message>
+</record>
+<record>
+  <date>2020-10-27T18:34:56</date>
+  <millis>1603820096111</millis>
+  <sequence>3</sequence>
+  <logger>prueba_logger</logger>
+  <level>FINER</level>
+  <class>Practicas1y2.ControladorVentanaSprites</class>
+  <method>anyadirSpriteASecuencia</method>
+  <thread>1</thread>
+  <message>Añadiendo sprite a secuencia: src\Practicas1y2\img\Attack__002.png</message>
+</record>
+<record>
+  <date>2020-10-27T18:34:56</date>
+  <millis>1603820096112</millis>
+  <sequence>4</sequence>
+  <logger>prueba_logger</logger>
+  <level>FINER</level>
+  <class>Practicas1y2.ControladorVentanaSprites</class>
+  <method>anyadirSpriteASecuencia</method>
+  <thread>1</thread>
+  <message>Añadiendo sprite a secuencia: src\Practicas1y2\img\Attack__003.png</message>
+</record>
+<record>
+  <date>2020-10-27T18:34:56</date>
+  <millis>1603820096112</millis>
+  <sequence>5</sequence>
+  <logger>prueba_logger</logger>
+  <level>FINER</level>
+  <class>Practicas1y2.ControladorVentanaSprites</class>
+  <method>anyadirSpriteASecuencia</method>
+  <thread>1</thread>
+  <message>Añadiendo sprite a secuencia: src\Practicas1y2\img\Attack__004.png</message>
+</record>
+<record>
+  <date>2020-10-27T18:35:09</date>
+  <millis>1603820109880</millis>
+  <sequence>6</sequence>
+  <logger>prueba_logger</logger>
+  <level>INFO</level>
+  <class>Practicas1y2.ControladorVentanaSprites</class>
+  <method>windowClosed</method>
+  <thread>18</thread>
+  <message>Fin de programa.</message>
+</record>
+</log>
