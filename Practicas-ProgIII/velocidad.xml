@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-10-27T20:02:17</date>
+  <millis>1603825337694</millis>
+  <sequence>2</sequence>
+  <logger>logger_Velocidad</logger>
+  <level>INFO</level>
+  <class>Practicas1y2.MainEdicionSprites</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>Velocidades: Tue Oct 27 20:02:17 CET 2020</message>
+</record>
+</log>

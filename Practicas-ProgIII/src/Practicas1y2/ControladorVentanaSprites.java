@@ -134,7 +134,7 @@ public class ControladorVentanaSprites {
 		/** Carga los ficheros gráficos png de la carpeta indicada
 		 * @param dir	Carpeta en la que buscar ficheros. Si es nula o no existe, se deja la lista de secuencia vacía
 		 */
-		void cargaFicherosGraficosOrdenados(File dir) {
+	public void cargaFicherosGraficosOrdenados(File dir) {
 			miVentana.mSprites.clear();
 			if (dir==null || !dir.exists()) return;
 			File[] fics = dir.listFiles(); // Ficheros de la carpeta
@@ -165,6 +165,7 @@ public class ControladorVentanaSprites {
 		if (f!=null) {
 			anyadirSpriteASecuencia( f );
 		}
+		MainEdicionSprites.logNomCarpeta.log( Level.FINER, "Añadiendo nombre de carpeta: " + f.getName() );
 	}
 	
 	/** Llamar a este método cuando se quiera añadir un sprite a la secuencia
@@ -556,6 +557,9 @@ public class ControladorVentanaSprites {
 	
 	public void windowClosed() {
 		MainEdicionSprites.log.log( Level.INFO, "Fin de programa.");
+		MainEdicionSprites.logNomCarpeta.log( Level.INFO, "Fin de busqueda de carpetas.");
+		MainEdicionSprites.logNomCarpeta.log( Level.INFO, "Fin de velocidades.");
+		
 	}
 	
 }

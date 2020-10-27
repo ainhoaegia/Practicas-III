@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-10-27T20:02:17</date>
+  <millis>1603825337693</millis>
+  <sequence>1</sequence>
+  <logger>logger_Carpeta</logger>
+  <level>INFO</level>
+  <class>Practicas1y2.MainEdicionSprites</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>Nombres de carpetas buscadas: Tue Oct 27 20:02:17 CET 2020</message>
+</record>
+<record>
+  <date>2020-10-27T20:02:42</date>
+  <millis>1603825362920</millis>
+  <sequence>14</sequence>
+  <logger>logger_Carpeta</logger>
+  <level>INFO</level>
+  <class>Practicas1y2.ControladorVentanaSprites</class>
+  <method>windowClosed</method>
+  <thread>18</thread>
+  <message>Fin de busqueda de carpetas.</message>
+</record>
+<record>
+  <date>2020-10-27T20:02:42</date>
+  <millis>1603825362921</millis>
+  <sequence>15</sequence>
+  <logger>logger_Carpeta</logger>
+  <level>INFO</level>
+  <class>Practicas1y2.ControladorVentanaSprites</class>
+  <method>windowClosed</method>
+  <thread>18</thread>
+  <message>Fin de velocidades.</message>
+</record>
+</log>
