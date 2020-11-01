@@ -1,15 +1,12 @@
 package Practicas1y2;
 
 import java.awt.Color;
-//Imports relacionados con el proceso
-import java.net.URL;
+//import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
-
-//Imports de librería externa  -  https://sourceforge.net/projects/htmlparser/
 import org.htmlparser.Node;
 import org.htmlparser.Tag;
 import org.htmlparser.http.ConnectionManager;
@@ -17,51 +14,44 @@ import org.htmlparser.lexer.Lexer;
 import org.htmlparser.lexer.Page;
 import org.htmlparser.nodes.TextNode;
 
-/** 
-* Clase de scrapping de una página web para procesar su contenido
-* Programación II y III
-* 
-* Utiliza la librería externa htmlparser 1.6 
-* Descargada en feb de 2016 de  https://sourceforge.net/projects/htmlparser/files/htmlparser/1.6/htmlparser1_6_20060610.zip
-* Web del proyecto: https://sourceforge.net/projects/htmlparser/
-* Descomprimir, guardar y enlazar fichero: htmlparser.jar
-* 
-* Programada como ejemplo para procesar estadísticas de jugadores desde la web de laliga.es
-* 
-*/
+
 public class ScrapWeb {
 	
 	private static boolean MOSTRAR_TODOS_LOS_TAGS = false;
 	public static void main(String[] args) {
 		// La url que quieras analizar
-		String url = "https://www.bing.com/images/search?q=sprite+spaceship+png";
-		revisaWeb( url );
+		String urlAAnalizar = "https://www.bing.com/images/search?q=sprite+spaceship+png";
+		revisaWeb( urlAAnalizar );
 		// proceso();
 	}
 	
+	@SuppressWarnings("unused")
 	private static void proceso() {
+
+		BuscarEnWeb pSprite = new BuscarEnWeb();
 		
-		ProcesadoPagina pPagina = new ProcesadoPagina();
-		String url = "https://www.bing.com/images/search?q=sprite+spaceship+png";
-		procesaWeb( url, pPagina );
+		String urlSprite = "https://www.bing.com/images/search?q=sprite+spaceship+png";
+		procesaWeb( urlSprite, pSprite );
+		System.out.println( pSprite.getDescs() );
+		System.out.println( pSprite.getCabs() );
+		System.out.println( pSprite.getimg() );
 		
 	}
 
-	// Ejemplo: procesado de laliga.es
-	private static class ProcesadoPagina implements ProcesadoWeb {
-		private String[] tagsBuscados1 = { "TH", "TR", "THEAD", "TABLE" };
-		private String[] tagsBuscados2 = { "TD", "TR", "TBODY", "TABLE" };
+	private static class BuscarEnWeb implements ProcesadoWeb {
+		private String[] tagsBuscados1 = { "TH", "TR", "THEAD", "IMG" };
+		private String[] tagsBuscados2 = { "TD", "TR", "TBODY", "IMG" };
 		private ArrayList<String> descs = new ArrayList<>();
 		private ArrayList<String> cabs = new ArrayList<>();
 		private ArrayList<String> vals = new ArrayList<>();
-		private HashMap<String,ArrayList<String>> tabla = new HashMap<>();
-		private boolean enTabla = false;
+		private HashMap<String,ArrayList<String>> img = new HashMap<>();
+		private boolean enIMG = false;
 		private boolean haHabidoValores = false;
 		private boolean sacadasCabeceras = false;
 		private String lastTH = "";
 		public ArrayList<String> getDescs() { return descs; }
 		public ArrayList<String> getCabs() { return cabs; }
-		public HashMap<String,ArrayList<String>> getTabla() { return tabla; }
+		public HashMap<String,ArrayList<String>> getimg() { return img; }
 		@Override
 		public void procesaTexto(TextNode texto, LinkedList<Tag> pilaTags) {
 			// Por ejemplo:
@@ -77,10 +67,10 @@ public class ScrapWeb {
 		@Override
 		public void procesaTag(Tag tag, LinkedList<Tag> pilaTags) {
 			// TODO programación del método (si procede)
-			if (tag.getTagName().equals("TABLE") && tag.getText().contains("class='datatable'")) {
-				// Empieza la tabla de datos
-				enTabla = true;
-			} else if (enTabla && tag.getTagName().equals("TR")) {
+			if (tag.getTagName().equals("IMG") && tag.getText().contains("class='dataIMG'")) {
+				// Empieza la img
+				enIMG = true;
+			} else if (enIMG && tag.getTagName().equals("TR")) {
 				// Marca líneas entre cabeceras y datos y entre líneas completas de datos
 				// System.out.println( "Separación (TR)" );
 				if (!sacadasCabeceras) {  // Cabecera - primera vez
@@ -89,13 +79,13 @@ public class ScrapWeb {
 					sacadasCabeceras = true;
 				} else if (!vals.isEmpty()) { // Datos - resto de veces
 					System.out.println( vals );
-					tabla.put( vals.get(1), vals );
+					img.put( vals.get(1), vals );
 					vals = new ArrayList<>();
 					haHabidoValores = true;
 				}
-			} else if (tag.getTagName().equals("SECTION") && enTabla && haHabidoValores) {
-				// Acaba la tabla de datos
-				enTabla = false;
+			} else if (tag.getTagName().equals("SECTION") && enIMG && haHabidoValores) {
+				// Acaba la img
+				enIMG = false;
 			} else if (tag.getTagName().equals("TH")) {
 				// Guarda el title del último TH
 				// Se usa para las descripciones (completas) de las cabeceras (resumidas)
@@ -107,43 +97,6 @@ public class ScrapWeb {
 		}
 	}
 
-
-	// Método de ejemplo
-	private static ArrayList<String> urls;
-	private static void procesaJugadores() {
-		System.out.println();
-		for (String url : urls) {
-			System.out.println( url );
-			procesaWeb( "http://www.marca.com" + url, new ProcesadoWeb() {
-				private String ultimoDato = "";
-				private String[] tagsBuscados = { "TD", "TR" };
-				private ArrayList<String> lTextos = new ArrayList<String>( Arrays.asList( new String[] { 
-						"Paradas", "Minutos jugados", "Tarjetas amarillas", "Tarjetas rojas", "Faltas cometidas", "Faltas recibidas",
-						"Goles", "Tiros entre los tres palos", "Tiros a puerta", "Balones perdidos", "Balones recuperados", "Asistencias"
-				} ) );
-				@Override
-				public void procesaTexto(TextNode texto, LinkedList<Tag> pilaTags) {
-					if (pilaContieneTags( pilaTags, tagsBuscados )) {
-						if (lTextos.contains( texto.getText() )) {
-							ultimoDato = texto.getText();
-						} else {
-							if (!ultimoDato.isEmpty()) {
-								System.out.println( "  " + ultimoDato + " = " + texto.getText() );
-							}
-							ultimoDato = "";
-						}
-					}
-				}
-				@Override
-				public void procesaTag(Tag tag, LinkedList<Tag> pilaTags) {
-				}
-				@Override
-				public void procesaTagCierre( Tag tag, LinkedList<Tag> pilaTags, boolean enHtml ) {
-				}
-			});
-		}
-	}
-
 	//
 	// Métodos de utilidad generales
 	//
@@ -152,8 +105,9 @@ public class ScrapWeb {
 	/** Procesa una web y muestra en una ventana de consola coloreada sus contenidos etiquetados
 	 * @param dirWeb
 	 */
+	@SuppressWarnings("unchecked")
 	public static void revisaWeb( String dirWeb ) {
-		URL url;
+//		URL url;
 		pilaTags = new LinkedList<>();
 		try {
 			ConnectionManager manager = Page.getConnectionManager();
@@ -221,8 +175,9 @@ public class ScrapWeb {
 	 * @param dirWeb	Web que se procesa
 	 * @param proc	Objeto observador que es llamado con cada elemento de la web
 	 */
+	@SuppressWarnings("unchecked")
 	public static void procesaWeb( String dirWeb, ProcesadoWeb proc ) {
-		URL url;
+//		URL url;
 		pilaTags = new LinkedList<>();
 		try {
 			ConnectionManager manager = Page.getConnectionManager();
@@ -313,7 +268,7 @@ public class ScrapWeb {
 		}
 		return false;
 	}
-	
+
 	/** Convierte a string visualizable la pila de tags sacando en una línea solo los tags separados por barras
 	 * @param pilaTags	Pila de tags anidados (el primero es el más reciente)
 	 * @return	String de tags de la pila en el mismo orden
