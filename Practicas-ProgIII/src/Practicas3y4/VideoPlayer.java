@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -384,12 +385,14 @@ public class VideoPlayer extends JFrame {
 	}
 	
 	private static File pedirFichero() {
-		File f = new File( System.getProperty( ".vpd" ) );
+		File f = new File( "fichero" );
+		FileNameExtensionFilter fnef = new FileNameExtensionFilter(".vpd");
 		JFileChooser chooser = new JFileChooser( f );
 		int returnVal = chooser.showOpenDialog( null );
+		
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			f = chooser.getSelectedFile();
-			return f;
+			chooser.setFileFilter( fnef );
+			return chooser;
 		} else {
 			return null;
 		}
