@@ -6,10 +6,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-/** Métodos útiles para base de datos.
- * Clase con métodos estáticos para gestionar una sola base de datos
- * @author Andoni Eguíluz Morán
- * Facultad de Ingeniería - Universidad de Deusto
+/** Mï¿½todos ï¿½tiles para base de datos.
+ * Clase con mï¿½todos estï¿½ticos para gestionar una sola base de datos
+ * @author Andoni Eguï¿½luz Morï¿½n
+ * Facultad de Ingenierï¿½a - Universidad de Deusto
  */
 public class BaseDeDatos {
 
@@ -20,10 +20,10 @@ public class BaseDeDatos {
 	private static Connection connection = null;
 	private static Statement statement = null;
 
-	/** Inicializa una BD SQLITE y devuelve una conexión con ella. Debe llamarse a este 
-	 * método antes que ningún otro, y debe devolver no null para poder seguir trabajando con la BD.
+	/** Inicializa una BD SQLITE y devuelve una conexiï¿½n con ella. Debe llamarse a este 
+	 * mï¿½todo antes que ningï¿½n otro, y debe devolver no null para poder seguir trabajando con la BD.
 	 * @param nombreBD	Nombre de fichero de la base de datos
-	 * @return	Conexión con la base de datos indicada. Si hay algún error, se devuelve null
+	 * @return	Conexiï¿½n con la base de datos indicada. Si hay algï¿½n error, se devuelve null
 	 */
 	public static Connection initBD( String nombreBD ) {
 		try {
@@ -37,7 +37,7 @@ public class BaseDeDatos {
 		}
 	}
 	
-	/** Cierra la conexión con la Base de Datos
+	/** Cierra la conexiï¿½n con la Base de Datos
 	 */
 	public static void close() {
 		try {
@@ -48,15 +48,15 @@ public class BaseDeDatos {
 		}
 	}
 	
-	/** Devuelve la conexión si ha sido establecida previamente (#initBD()).
-	 * @return	Conexión con la BD, null si no se ha establecido correctamente.
+	/** Devuelve la conexiï¿½n si ha sido establecida previamente (#initBD()).
+	 * @return	Conexiï¿½n con la BD, null si no se ha establecido correctamente.
 	 */
 	public static Connection getConnection() {
 		return connection;
 	}
 	
 	/** Devuelve una sentencia para trabajar con la BD,
-	 * si la conexión si ha sido establecida previamente (#initBD()).
+	 * si la conexiï¿½n si ha sido establecida previamente (#initBD()).
 	 * @return	Sentencia de trabajo con la BD, null si no se ha establecido correctamente.
 	 */
 	public static Statement getStatement() {
@@ -67,8 +67,8 @@ public class BaseDeDatos {
 	// PARTICULAR DEL CATALOGO MULTIMEDIA
 	// ------------------------------------
 	
-	/** Crea una tabla de catálogo multimedia en una base de datos, si no existía ya.
-	 * Debe haberse inicializado la conexión correctamente.
+	/** Crea una tabla de catï¿½logo multimedia en una base de datos, si no existï¿½a ya.
+	 * Debe haberse inicializado la conexiï¿½n correctamente.
 	 */
 	public static void crearTablaBD() {
 		if (statement==null) return;
@@ -76,8 +76,15 @@ public class BaseDeDatos {
 			statement.executeUpdate("create table fichero_multimedia " +
 				"(fichero string, error boolean, titulo string" +
 				", cantante string, comentarios string)");
+			
+			try {
+				statement.executeUpdate( "insert into fichero_multimedia values"
+						+ "('C:/datos/test/res/Pentatonix.mp4', 'false', "
+						+ "'I need your love', 'Pentatonix', 'No estaÌ mal...' )" );
+			} catch (Exception e) {}
+			
 		} catch (SQLException e) {
-			// Si hay excepción es que la tabla ya existía (lo cual es correcto)
+			// Si hay excepciï¿½n es que la tabla ya existï¿½a (lo cual es correcto)
 			// e.printStackTrace();  
 		}
 	}

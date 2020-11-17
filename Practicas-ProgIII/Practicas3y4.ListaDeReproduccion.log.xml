@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-11-14T21:21:24</date>
+  <millis>1605385284726</millis>
+  <sequence>0</sequence>
+  <logger>Practicas3y4.ListaDeReproduccion</logger>
+  <level>INFO</level>
+  <class>Practicas3y4.ListaDeReproduccion</class>
+  <method>&lt;clinit&gt;</method>
+  <thread>15</thread>
+  <message></message>
+</record>
+<record>
+  <date>2020-11-14T21:21:24</date>
+  <millis>1605385284737</millis>
+  <sequence>1</sequence>
+  <logger>Practicas3y4.ListaDeReproduccion</logger>
+  <level>INFO</level>
+  <class>Practicas3y4.ListaDeReproduccion</class>
+  <method>&lt;clinit&gt;</method>
+  <thread>15</thread>
+  <message>November 14, 2020 9:21:24 PM CET</message>
+</record>
+</log>

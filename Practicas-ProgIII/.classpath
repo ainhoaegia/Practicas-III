@@ -10,6 +10,6 @@
 	<classpathentry kind="lib" path="/Users/ainhoaegia/Downloads/sqlite-jdbc-3.32.3.2.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="/Users/ainhoaegia/Downloads/htmlparser1_6/lib/htmlparser.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Admin/Downloads/vlcj-3.12.1.jar"/>
+	<classpathentry kind="lib" path="/Users/ainhoaegia/Downloads/vlcj-3.12.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

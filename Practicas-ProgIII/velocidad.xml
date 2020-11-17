@@ -2,14 +2,14 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2020-10-27T20:02:17</date>
-  <millis>1603825337694</millis>
+  <date>2020-11-09T09:17:30</date>
+  <millis>1604909850117</millis>
   <sequence>2</sequence>
   <logger>logger_Velocidad</logger>
   <level>INFO</level>
   <class>Practicas1y2.MainEdicionSprites</class>
   <method>main</method>
   <thread>1</thread>
-  <message>Velocidades: Tue Oct 27 20:02:17 CET 2020</message>
+  <message>Velocidades: Mon Nov 09 09:17:30 CET 2020</message>
 </record>
 </log>

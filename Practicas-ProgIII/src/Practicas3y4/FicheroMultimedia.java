@@ -1,25 +1,30 @@
 package Practicas3y4;
 
 import java.io.File;
+import java.io.Serializable;
 
-/** Clase para gestionar objetos con la información completa de un fichero multimedia
+/** Clase para gestionar objetos con la informaciï¿½n completa de un fichero multimedia
  * para nuestro reproductor-catalogador.
- * Usa campos públicos en lugar de set/gets.
- * @author Andoni Eguíluz Morán
- * Facultad de Ingeniería - Universidad de Deusto
+ * Usa campos pï¿½blicos en lugar de set/gets.
+ * @author Andoni Eguï¿½luz Morï¿½n
+ * Facultad de Ingenierï¿½a - Universidad de Deusto
  */
-public class FicheroMultimedia {
+public class FicheroMultimedia implements Serializable{
+	
+	/**Serializable
+	 */
+	private static final long serialVersionUID = 1L;
 	public File file;          // Fichero
-	public boolean erroneo;    // ¿No se puede reproducir?
-	public String titulo;      // Título de la canción (si procede)
-	public String cantante;    // Cantante(s) de la canción (si procede)
+	public boolean erroneo;    // ï¿½No se puede reproducir?
+	public String titulo;      // Tï¿½tulo de la canciï¿½n (si procede)
+	public String cantante;    // Cantante(s) de la canciï¿½n (si procede)
 	public String comentarios; // Comentarios al fichero multimedia
 
 	/** Constructor de fichero multimedia
 	 * @param file	Fichero
 	 * @param erroneo	true si no se puede reproducir
-	 * @param titulo	Título de la canción ("" por defecto)
-	 * @param cantante	Cantante de la canción ("" por defecto)
+	 * @param titulo	Tï¿½tulo de la canciï¿½n ("" por defecto)
+	 * @param cantante	Cantante de la canciï¿½n ("" por defecto)
 	 * @param comentarios	Comentarios al fichero multimedia ("" por defecto)
 	 */
 	public FicheroMultimedia(File file, boolean erroneo, String titulo,

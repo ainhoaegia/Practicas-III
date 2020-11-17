@@ -2,19 +2,19 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2020-10-27T20:02:17</date>
-  <millis>1603825337676</millis>
+  <date>2020-11-09T09:17:30</date>
+  <millis>1604909850099</millis>
   <sequence>0</sequence>
   <logger>prueba_logger</logger>
   <level>INFO</level>
   <class>Practicas1y2.MainEdicionSprites</class>
   <method>main</method>
   <thread>1</thread>
-  <message>Inicio Edicion Sprites Tue Oct 27 20:02:17 CET 2020</message>
+  <message>Inicio Edicion Sprites Mon Nov 09 09:17:30 CET 2020</message>
 </record>
 <record>
-  <date>2020-10-27T20:02:19</date>
-  <millis>1603825339325</millis>
+  <date>2020-11-09T09:17:32</date>
+  <millis>1604909852280</millis>
   <sequence>3</sequence>
   <logger>prueba_logger</logger>
   <level>FINER</level>
@@ -24,8 +24,8 @@
   <message>Añadiendo sprite a secuencia: Attack__000.png</message>
 </record>
 <record>
-  <date>2020-10-27T20:02:19</date>
-  <millis>1603825339327</millis>
+  <date>2020-11-09T09:17:32</date>
+  <millis>1604909852283</millis>
   <sequence>4</sequence>
   <logger>prueba_logger</logger>
   <level>FINER</level>
@@ -35,8 +35,8 @@
   <message>Añadiendo sprite a secuencia: Attack__001.png</message>
 </record>
 <record>
-  <date>2020-10-27T20:02:19</date>
-  <millis>1603825339328</millis>
+  <date>2020-11-09T09:17:32</date>
+  <millis>1604909852284</millis>
   <sequence>5</sequence>
   <logger>prueba_logger</logger>
   <level>FINER</level>
@@ -46,8 +46,8 @@
   <message>Añadiendo sprite a secuencia: Attack__002.png</message>
 </record>
 <record>
-  <date>2020-10-27T20:02:19</date>
-  <millis>1603825339329</millis>
+  <date>2020-11-09T09:17:32</date>
+  <millis>1604909852285</millis>
   <sequence>6</sequence>
   <logger>prueba_logger</logger>
   <level>FINER</level>
@@ -57,8 +57,8 @@
   <message>Añadiendo sprite a secuencia: Attack__003.png</message>
 </record>
 <record>
-  <date>2020-10-27T20:02:19</date>
-  <millis>1603825339329</millis>
+  <date>2020-11-09T09:17:32</date>
+  <millis>1604909852286</millis>
   <sequence>7</sequence>
   <logger>prueba_logger</logger>
   <level>FINER</level>
@@ -68,8 +68,8 @@
   <message>Añadiendo sprite a secuencia: Attack__004.png</message>
 </record>
 <record>
-  <date>2020-10-27T20:02:19</date>
-  <millis>1603825339330</millis>
+  <date>2020-11-09T09:17:32</date>
+  <millis>1604909852286</millis>
   <sequence>8</sequence>
   <logger>prueba_logger</logger>
   <level>FINER</level>
@@ -79,8 +79,8 @@
   <message>Añadiendo sprite a secuencia: Attack__005.png</message>
 </record>
 <record>
-  <date>2020-10-27T20:02:19</date>
-  <millis>1603825339330</millis>
+  <date>2020-11-09T09:17:32</date>
+  <millis>1604909852287</millis>
   <sequence>9</sequence>
   <logger>prueba_logger</logger>
   <level>FINER</level>
@@ -90,8 +90,8 @@
   <message>Añadiendo sprite a secuencia: Attack__006.png</message>
 </record>
 <record>
-  <date>2020-10-27T20:02:19</date>
-  <millis>1603825339331</millis>
+  <date>2020-11-09T09:17:32</date>
+  <millis>1604909852288</millis>
   <sequence>10</sequence>
   <logger>prueba_logger</logger>
   <level>FINER</level>
@@ -101,8 +101,8 @@
   <message>Añadiendo sprite a secuencia: Attack__007.png</message>
 </record>
 <record>
-  <date>2020-10-27T20:02:19</date>
-  <millis>1603825339331</millis>
+  <date>2020-11-09T09:17:32</date>
+  <millis>1604909852288</millis>
   <sequence>11</sequence>
   <logger>prueba_logger</logger>
   <level>FINER</level>
@@ -112,8 +112,8 @@
   <message>Añadiendo sprite a secuencia: Attack__008.png</message>
 </record>
 <record>
-  <date>2020-10-27T20:02:19</date>
-  <millis>1603825339332</millis>
+  <date>2020-11-09T09:17:32</date>
+  <millis>1604909852290</millis>
   <sequence>12</sequence>
   <logger>prueba_logger</logger>
   <level>FINER</level>
@@ -123,14 +123,14 @@
   <message>Añadiendo sprite a secuencia: Attack__009.png</message>
 </record>
 <record>
-  <date>2020-10-27T20:02:42</date>
-  <millis>1603825362919</millis>
+  <date>2020-11-09T09:17:35</date>
+  <millis>1604909855455</millis>
   <sequence>13</sequence>
   <logger>prueba_logger</logger>
   <level>INFO</level>
   <class>Practicas1y2.ControladorVentanaSprites</class>
   <method>windowClosed</method>
-  <thread>18</thread>
+  <thread>20</thread>
   <message>Fin de programa.</message>
 </record>
 </log>

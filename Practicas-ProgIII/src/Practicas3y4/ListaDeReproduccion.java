@@ -4,6 +4,7 @@ package Practicas3y4;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,20 +16,24 @@ import javax.swing.ListModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
-/** Clase para crear instancias como listas de reproducción,
- * que permite almacenar listas de ficheros con posición de índice
+/** Clase para crear instancias como listas de reproducciï¿½n,
+ * que permite almacenar listas de ficheros con posiciï¿½n de ï¿½ndice
  * (al estilo de un array / arraylist)
- * con marcas de error en los ficheros y con métodos para cambiar la posición
- * de los elementos en la lista, borrar elementos y añadir nuevos.
- * @author Andoni Eguíluz Morán
- * Facultad de Ingeniería - Universidad de Deusto
+ * con marcas de error en los ficheros y con mï¿½todos para cambiar la posiciï¿½n
+ * de los elementos en la lista, borrar elementos y aï¿½adir nuevos.
+ * @author Andoni Eguï¿½luz Morï¿½n
+ * Facultad de Ingenierï¿½a - Universidad de Deusto
  */
-public class ListaDeReproduccion implements ListModel<String> {
-	ArrayList<File> ficherosLista;        // ficheros de la lista de reproducción
-	ArrayList<Boolean> ficherosErroneos;  // ficheros de esa lista que son erróneos (true-false para cada uno)
+public class ListaDeReproduccion implements ListModel<String>, Serializable {
+	
+	/**Serializable
+	 */
+	private static final long serialVersionUID = 1L;
+	ArrayList<File> ficherosLista;        // ficheros de la lista de reproducciï¿½n
+	ArrayList<Boolean> ficherosErroneos;  // ficheros de esa lista que son errï¿½neos (true-false para cada uno)
 	int ficheroEnCurso = -1;   // Fichero seleccionado (-1 si no hay ninguno seleccionado)
 
-	private static final boolean ANYADIR_A_FIC_LOG = false;  // poner true para hacer append en cada ejecución
+	private static final boolean ANYADIR_A_FIC_LOG = false;  // poner true para hacer append en cada ejecuciï¿½n
 	
 	// Logger de la clase
 	private static Logger logger = Logger.getLogger( ListaDeReproduccion.class.getName() );
@@ -38,7 +43,7 @@ public class ListaDeReproduccion implements ListModel<String> {
 			Formatter f = new SimpleFormatter() {
 				@Override
 				public synchronized String format(LogRecord record) {
-					// return super.format(record);  // Si no queremos el formateador con tanta información
+					// return super.format(record);  // Si no queremos el formateador con tanta informaciï¿½n
 					if (record.getLevel().intValue()<Level.CONFIG.intValue())
 						// Si es menor que CONFIG lo sacamos muy tabulado a la derecha
 						return "\t\t(" + record.getLevel() + ") " + record.getMessage() + "\n";
@@ -60,58 +65,47 @@ public class ListaDeReproduccion implements ListModel<String> {
 		logger.log( Level.INFO, DateFormat.getDateTimeInstance( DateFormat.LONG, DateFormat.LONG ).format( new Date() ) );
 	}
 	
-	/** Crea una lista de reproducción vacía
+	/** Crea una lista de reproducciï¿½n vacï¿½a
 	 */
 	public ListaDeReproduccion() {
 		ficherosLista = new ArrayList<File>();
 		ficherosErroneos = new ArrayList<Boolean>();
 	}
 
-	/** Añade a la lista de reproducción todos los ficheros que haya en la 
+	/** Aï¿½ade a la lista de reproducciï¿½n todos los ficheros que haya en la 
 	 * carpeta indicada, que cumplan el filtro indicado.
-	 * Si hay cualquier error, la lista de reproducción queda solo con los ficheros
+	 * Si hay cualquier error, la lista de reproducciï¿½n queda solo con los ficheros
 	 * que hayan podido ser cargados de forma correcta.
 	 * @param carpetaFicheros	Path de la carpeta donde buscar los ficheros
 	 * @param filtroFicheros	Filtro del formato que tienen que tener los nombres de
 	 * 							los ficheros para ser cargados.
-	 * 							String con cualquier letra o dígito. Si tiene un asterisco
-	 * 							hace referencia a cualquier conjunto de letras o dígitos.
+	 * 							String con cualquier letra o dï¿½gito. Si tiene un asterisco
+	 * 							hace referencia a cualquier conjunto de letras o dï¿½gitos.
 	 * 							Por ejemplo p*.* hace referencia a cualquier fichero de nombre
-	 * 							que empiece por p y tenga cualquier extensión.
-	 * @return	Número de ficheros que han sido añadidos a la lista
+	 * 							que empiece por p y tenga cualquier extensiï¿½n.
+	 * @return	Nï¿½mero de ficheros que han sido aï¿½adidos a la lista
 	 */
 	public int add(String carpetaFicheros, String filtroFicheros) {
 		int ficsAnyadidos = 0;
 		if (carpetaFicheros!=null) {
-			logger.log( Level.INFO, "Añadiendo ficheros con filtro " + filtroFicheros );
+			logger.log( Level.INFO, "Aï¿½adiendo ficheros con filtro " + filtroFicheros );
 			try {
-				filtroFicheros = filtroFicheros.replaceAll( "\\.", "\\\\." );  // Pone el símbolo de la expresión regular \. donde figure un .
-				filtroFicheros = filtroFicheros.replaceAll( "\\*", ".*" );  // Pone el símbolo de la expresión regular .* donde figure un *
-				logger.log( Level.INFO, "expresión regular del filtro: " + filtroFicheros );
-				Pattern pFics = Pattern.compile( filtroFicheros, Pattern.CASE_INSENSITIVE );
-				File fInic = new File(carpetaFicheros); 
-				if (fInic.isDirectory()) {
-					for( File f : fInic.listFiles() ) {
-						logger.log( Level.FINE, "Procesando fichero " + f.getName() );
-						if (f.isFile() && pFics.matcher(f.getName()).matches() ) { // Si cumple el patrón, se añade
-							ficsAnyadidos++;
-							logger.log( Level.INFO, "Añadido vídeo a lista de reproducción: " + f.getName() );
-							add( f );
-						}
-					}
-				}
+				filtroFicheros = filtroFicheros.replaceAll( "\\.", "\\\\." );  // Pone el sï¿½mbolo de la expresiï¿½n regular \. donde figure un .
+				filtroFicheros = filtroFicheros.replaceAll( "\\*", ".*" );  // Pone el sï¿½mbolo de la expresiï¿½n regular .* donde figure un *
+				logger.log( Level.INFO, "expresiï¿½n regular del filtro: " + filtroFicheros );
+				anyadeFicheros( carpetaFicheros, filtroFicheros );
 			} catch (PatternSyntaxException e) {
-				logger.log( Level.SEVERE, "Error en patrón de expresión regular ", e );
+				logger.log( Level.SEVERE, "Error en patrï¿½n de expresiï¿½n regular ", e );
 			}
 		}
-		logger.log( Level.INFO, "ficheros añadidos: " + ficsAnyadidos );
+		logger.log( Level.INFO, "ficheros aï¿½adidos: " + ficsAnyadidos );
 		return ficsAnyadidos;
 	}
 	
 	/** Devuelve uno de los ficheros de la lista
-	 * @param posi	Posición del fichero en la lista (de 0 a size()-1)
-	 * @return	Devuelve el fichero en esa posición
-	 * @throws IndexOutOfBoundsException	Si el índice no es válido
+	 * @param posi	Posiciï¿½n del fichero en la lista (de 0 a size()-1)
+	 * @return	Devuelve el fichero en esa posiciï¿½n
+	 * @throws IndexOutOfBoundsException	Si el ï¿½ndice no es vï¿½lido
 	 */
 	public File getFic( int posi ) throws IndexOutOfBoundsException {
 		return ficherosLista.get( posi );
@@ -125,8 +119,8 @@ public class ListaDeReproduccion implements ListModel<String> {
 	
 	/** Intercambia los dos ficheros indicados de la lista. 
 	 * Si alguna de las posiciones es incorrecta, no hace nada.
-	 * @param posi1	Posición en la lista de primer fichero (0 a size()-1)
-	 * @param posi2	Posición en la lista de primer fichero (0 a size()-1)
+	 * @param posi1	Posiciï¿½n en la lista de primer fichero (0 a size()-1)
+	 * @param posi2	Posiciï¿½n en la lista de primer fichero (0 a size()-1)
 	 */
 	public void intercambia( int posi1, int posi2 ) {
 		if (posi1<0 || posi2<0 || posi1>=ficherosLista.size() || posi2>ficherosLista.size())
@@ -139,15 +133,15 @@ public class ListaDeReproduccion implements ListModel<String> {
 		ficherosErroneos.set( posi2, tempB );
 	}
 	
-	/** Devuelve el número de ficheros de la lista.
-	 * @return	Número de ficheros, 0 si está vacía.
+	/** Devuelve el nï¿½mero de ficheros de la lista.
+	 * @return	Nï¿½mero de ficheros, 0 si estï¿½ vacï¿½a.
 	 */
 	public int size() {
 		return ficherosLista.size();
 	}
 	
-	/** Añade un fichero al final de la lista
-	 * @param f	Fichero a añadir
+	/** Aï¿½ade un fichero al final de la lista
+	 * @param f	Fichero a aï¿½adir
 	 */
 	public void add( File f ) {
 		ficherosLista.add( f );
@@ -155,15 +149,15 @@ public class ListaDeReproduccion implements ListModel<String> {
 		avisarAnyadido( ficherosLista.size()-1 );
 	}
 	
-	/** Elimina un fichero de la lista, dada su posición
-	 * @param posi	Posición del elemento a borrar
+	/** Elimina un fichero de la lista, dada su posiciï¿½n
+	 * @param posi	Posiciï¿½n del elemento a borrar
 	 */
 	public void removeFic( int posi ) throws IndexOutOfBoundsException {
 		ficherosLista.remove( posi );
 		ficherosErroneos.remove( posi );
 	}
 	
-	/** Borra los datos de la lista de reproducción
+	/** Borra los datos de la lista de reproducciï¿½n
 	 */
 	public void clear() {
 		ficherosLista.clear();
@@ -171,126 +165,126 @@ public class ListaDeReproduccion implements ListModel<String> {
 	}
 	
 	//
-	// Métodos de selección
+	// Mï¿½todos de selecciï¿½n
 	//
 	
-	/** Seleciona el primer fichero no erróneo de la lista de reproducción
-	 * @return	true si la selección es correcta, false si hay error y no se puede seleccionar
+	/** Seleciona el primer fichero no errï¿½neo de la lista de reproducciï¿½n
+	 * @return	true si la selecciï¿½n es correcta, false si hay error y no se puede seleccionar
 	 */
 	public boolean irAPrimero() {
 		ficheroEnCurso = 0;  // Inicia
 		while (ficheroEnCurso<ficherosLista.size() && ficherosErroneos.get(ficheroEnCurso))
-			ficheroEnCurso++;  // Y si es erróneo busca el siguiente
+			ficheroEnCurso++;  // Y si es errï¿½neo busca el siguiente
 		if (ficheroEnCurso>=ficherosLista.size()) {
-			ficheroEnCurso = -1;  // Si no se encuentra, no hay selección
+			ficheroEnCurso = -1;  // Si no se encuentra, no hay selecciï¿½n
 			return false;  // Y devuelve error
 		}
 		return true;
 	}
 	
-	/** Seleciona el último fichero no erróneo de la lista de reproducción
-	 * @return	true si la selección es correcta, false si hay error y no se puede seleccionar
+	/** Seleciona el ï¿½ltimo fichero no errï¿½neo de la lista de reproducciï¿½n
+	 * @return	true si la selecciï¿½n es correcta, false si hay error y no se puede seleccionar
 	 */
 	public boolean irAUltimo() {
 		ficheroEnCurso = ficherosLista.size()-1;  // Inicia al final
 		while (ficheroEnCurso>=0 && ficherosErroneos.get(ficheroEnCurso))
-			ficheroEnCurso--;  // Y si es erróneo busca el anterior
-		if (ficheroEnCurso==-1) {  // Si no se encuentra, no hay selección
+			ficheroEnCurso--;  // Y si es errï¿½neo busca el anterior
+		if (ficheroEnCurso==-1) {  // Si no se encuentra, no hay selecciï¿½n
 			return false;  // Y devuelve error
 		}
 		return true;
 	}
 
-	/** Seleciona el anterior fichero no erróneo de la lista de reproducción
-	 * @return	true si la selección es correcta, false si hay error y no se puede seleccionar
+	/** Seleciona el anterior fichero no errï¿½neo de la lista de reproducciï¿½n
+	 * @return	true si la selecciï¿½n es correcta, false si hay error y no se puede seleccionar
 	 */
 	public boolean irAAnterior() {
 		if (ficheroEnCurso>=0) ficheroEnCurso--;
 		while (ficheroEnCurso>=0 && ficherosErroneos.get(ficheroEnCurso))
-			ficheroEnCurso--;  // Si es erróneo busca el anterior
-		if (ficheroEnCurso==-1) {  // Si no se encuentra, no hay selección
+			ficheroEnCurso--;  // Si es errï¿½neo busca el anterior
+		if (ficheroEnCurso==-1) {  // Si no se encuentra, no hay selecciï¿½n
 			return false;  // Y devuelve error
 		}
 		return true;
 	}
 
-	/** Seleciona el siguiente fichero no erróneo de la lista de reproducción
-	 * @return	true si la selección es correcta, false si hay error y no se puede seleccionar
+	/** Seleciona el siguiente fichero no errï¿½neo de la lista de reproducciï¿½n
+	 * @return	true si la selecciï¿½n es correcta, false si hay error y no se puede seleccionar
 	 */
 	public boolean irASiguiente() {
 		ficheroEnCurso++;
 		while (ficheroEnCurso<ficherosLista.size() 
 				&& ficherosErroneos.get(ficheroEnCurso))
-			ficheroEnCurso++;  // Si es erróneo busca el siguiente
+			ficheroEnCurso++;  // Si es errï¿½neo busca el siguiente
 		if (ficheroEnCurso>=ficherosLista.size()) {
-			ficheroEnCurso = -1;  // Si no se encuentra, no hay selección
+			ficheroEnCurso = -1;  // Si no se encuentra, no hay selecciï¿½n
 			return false;  // Y devuelve error
 		}
 		return true;
 	}
 
-	/** Seleciona el fichero indicado de la lista de reproducción
-	 * @return	true si la selección es correcta, false si hay error y no se puede seleccionar
+	/** Seleciona el fichero indicado de la lista de reproducciï¿½n
+	 * @return	true si la selecciï¿½n es correcta, false si hay error y no se puede seleccionar
 	 */
 	public boolean irA( int posi ) {
 		ficheroEnCurso = posi;
 		while (ficheroEnCurso<ficherosLista.size() && ficherosErroneos.get(ficheroEnCurso))
-			ficheroEnCurso++;  // Si es erróneo busca el siguiente
+			ficheroEnCurso++;  // Si es errï¿½neo busca el siguiente
 		if (ficheroEnCurso>=ficherosLista.size()) {
-			ficheroEnCurso = -1;  // Si no se encuentra, no hay selección
+			ficheroEnCurso = -1;  // Si no se encuentra, no hay selecciï¿½n
 			return false;  // Y devuelve error
 		}
 		return true;
 	}
 	
 	/** Devuelve el fichero seleccionado de la lista
-	 * @return	Posición del fichero seleccionado en la lista de reproducción (0 a n-1), -1 si no lo hay
+	 * @return	Posiciï¿½n del fichero seleccionado en la lista de reproducciï¿½n (0 a n-1), -1 si no lo hay
 	 */
 	public int getFicSeleccionado() {
 		return ficheroEnCurso;
 	}
 	
 		private static Random genAleat = new Random();
-	/** Selecciona un fichero aleatorio de la lista de reproducción.
-	 * @return	true si la selección es correcta, false si hay error y no se puede seleccionar
+	/** Selecciona un fichero aleatorio de la lista de reproducciï¿½n.
+	 * @return	true si la selecciï¿½n es correcta, false si hay error y no se puede seleccionar
 	 */
 	public boolean irARandom() {
 		if (ficherosLista.size()==0) {
 			ficheroEnCurso = -1;
 			return false;   // Error
 		}
-		for(int i=0; i<500; i++) {  // Como máximo lo hace 500 veces (para evitar bucles infinitos por aleatoriedad o por muchos o todos los ficheros erróneos)
+		for(int i=0; i<500; i++) {  // Como mï¿½ximo lo hace 500 veces (para evitar bucles infinitos por aleatoriedad o por muchos o todos los ficheros errï¿½neos)
 			ficheroEnCurso = genAleat.nextInt( ficherosLista.size() );
 			if (!ficherosErroneos.get(ficheroEnCurso))
-				return true;  // Si no es erróneo, se va a esta selección. Si lo es, se vuelve a intentar
+				return true;  // Si no es errï¿½neo, se va a esta selecciï¿½n. Si lo es, se vuelve a intentar
 		}
 		return false;
 	}
 	
 	//
-	// Métodos de ficheros erróneos
+	// Mï¿½todos de ficheros errï¿½neos
 	//
 	
-	/** Marca el fichero como erróneo
-	 * @param posi	Posición del fichero (0 - size()-1)
-	 * @param erroneo	Indicación de si es erróneo (true) o no (false)
-	 * @throws IndexOutOfBoundsException	Error si el índice no está en el rango correcto
+	/** Marca el fichero como errï¿½neo
+	 * @param posi	Posiciï¿½n del fichero (0 - size()-1)
+	 * @param erroneo	Indicaciï¿½n de si es errï¿½neo (true) o no (false)
+	 * @throws IndexOutOfBoundsException	Error si el ï¿½ndice no estï¿½ en el rango correcto
 	 */
 	public void setFicErroneo( int posi, boolean erroneo ) throws IndexOutOfBoundsException {
 		ficherosErroneos.set( posi, erroneo );
 	}
 	
-	/** Devuelve la información de si es o no erróneo el fichero indicado de la lista
-	 * @param posi	Posición del fichero (0 - size()-1)
-	 * @return	true si es erróneo, false si no
-	 * @throws IndexOutOfBoundsException	Error si el índice no está en el rango correcto
+	/** Devuelve la informaciï¿½n de si es o no errï¿½neo el fichero indicado de la lista
+	 * @param posi	Posiciï¿½n del fichero (0 - size()-1)
+	 * @return	true si es errï¿½neo, false si no
+	 * @throws IndexOutOfBoundsException	Error si el ï¿½ndice no estï¿½ en el rango correcto
 	 */
 	public boolean isErroneo( int posi ) throws IndexOutOfBoundsException {
 		return ficherosErroneos.get(posi);
 	}
 
 	//
-	// Métodos de ListModel
+	// Mï¿½todos de ListModel
 	//
 	
 	@Override
@@ -319,12 +313,26 @@ public class ListaDeReproduccion implements ListModel<String> {
 		misEscuchadores.remove( l );
 	}
 
-	// Llamar a este método cuando se añada un elemento a la lista
+	// Llamar a este mï¿½todo cuando se aï¿½ada un elemento a la lista
 	// (Utilizado para avisar a los escuchadores de cambio de datos de la lista)
 	private void avisarAnyadido( int posi ) {
 		for (ListDataListener ldl : misEscuchadores) {
-			System.out.println( "AÑADIDO: " + posi );
+			System.out.println( "Aï¿½ADIDO: " + posi );
 			ldl.intervalAdded( new ListDataEvent(this, ListDataEvent.INTERVAL_ADDED, posi, posi+1 ));
+		}
+	}
+	
+	public void anyadeFicheros( String carpetaFicheros, String filtroFicheros ) {
+		Pattern pFics = Pattern.compile( filtroFicheros, Pattern.CASE_INSENSITIVE );
+		File fInic = new File(carpetaFicheros); 
+		if (fInic.isDirectory()) {
+			for( File f : fInic.listFiles() ) {
+				logger.log( Level.FINE, "Procesando fichero " + f.getName() );
+				if (f.isFile() && pFics.matcher(f.getName()).matches() ) { // Si cumple el patrï¿½n, se aï¿½ade
+					logger.log( Level.INFO, "Aï¿½adido vï¿½deo a lista de reproducciï¿½n: " + f.getName() );
+					add( f );
+				}
+			}
 		}
 	}
 }

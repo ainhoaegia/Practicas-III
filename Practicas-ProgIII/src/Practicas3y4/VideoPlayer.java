@@ -4,23 +4,19 @@ package Practicas3y4;
 import java.awt.*;
 import java.awt.event.*;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
-import java.io.File;
+import javax.swing.filechooser.*;
+import javax.swing.filechooser.FileFilter;
+import java.io.*;
+import java.text.*;
+import java.util.*;
 import java.lang.reflect.InvocationTargetException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
-import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
-import uk.co.caprica.vlcj.player.MediaPlayer;
-import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
-import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
-import uk.co.caprica.vlcj.player.embedded.FullScreenStrategy;
-import uk.co.caprica.vlcj.player.embedded.windows.Win32FullScreenStrategy;
+import uk.co.caprica.vlcj.component.*;
+import uk.co.caprica.vlcj.player.*;
+import uk.co.caprica.vlcj.player.embedded.*;
+import uk.co.caprica.vlcj.player.embedded.windows.*;
 
 //  - Añadido evento de doble click en lista para seleccionar el fichero directamente
 //    (Nuevo método irA(int) en clase ListaDeReproduccion)
@@ -61,6 +57,8 @@ public class VideoPlayer extends JFrame {
 	static enum BotonDe { ANYADIR, ATRAS, PLAY_PAUSA, AVANCE, MAXIMIZAR };  // Mismo orden que el array
 	static String[] ficsBotonesLR = new String[] { "open", "save", "saveas" };
 	static enum BotonDeLR { LOAD, SAVE, SAVEAS };  // Mismo orden que el array
+	
+	
 
 		// Renderer para la lista vertical de vídeos (colorea diferente los elementos erróneos)
 		private DefaultListCellRenderer miListRenderer = new DefaultListCellRenderer() {
@@ -78,11 +76,13 @@ public class VideoPlayer extends JFrame {
 		};
 	
 	public VideoPlayer() {
+		
 		// Creación de datos asociados a la ventana (lista de reproducción)
 		listaRepVideos = new ListaDeReproduccion();
-		
+				
 		// Creación de componentes/contenedores de swing
 		lCanciones = new JList<String>( listaRepVideos );
+		
 		pbVideo = new JProgressBar( 0, 10000 );
 		cbAleatorio = new JCheckBox("Rep. aleatoria");
 		lMensaje = new JLabel( "" );
@@ -178,7 +178,29 @@ public class VideoPlayer extends JFrame {
 		pInferior.add( pbVideo, BorderLayout.SOUTH );
 		pIzquierda.add( spLCanciones, BorderLayout.CENTER );
 		pIzquierda.add( pBotoneraLR, BorderLayout.SOUTH );
-
+		
+		JButton bPaso5 = new JButton( "PASO 5" );
+		
+		botonesLR.add( bPaso5 );
+		try {
+			Image img = ImageIO.read(getClass().getResource("Practicas3y4/img/database.png"));
+			bPaso5.setIcon( new ImageIcon( img ) );
+		} catch ( Exception ex ) {
+			System.out.println(ex);
+		}
+		
+		bPaso5.addActionListener( new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for(int i = 0;i<listaRepVideos.size();i++)
+				{
+				    System.out.println(listaRepVideos.getFic(i));
+				}
+			}
+		});
+		 
+		
 		getContentPane().add( mediaPlayerComponent, BorderLayout.CENTER );
 		getContentPane().add( pBotonera, BorderLayout.NORTH );
 		getContentPane().add( pInferior, BorderLayout.SOUTH );
@@ -284,14 +306,43 @@ public class VideoPlayer extends JFrame {
 				}
 			}
 		});
-		// Cierre del player cuando se cierra la ventana
+		
 		addWindowListener( new WindowAdapter() {
+			// Cierre del player cuando se cierra la ventana
 			@Override
 			public void windowClosing(WindowEvent e) {
 				mediaPlayer.stop();
 				mediaPlayer.release();
+				BaseDeDatos.close();
+			}
+			
+			// PROPERTIES
+			
+			@Override
+			public void windowOpened(WindowEvent e) {
+				Properties prop = new Properties();
+				
+				try {
+					InputStream fis = new FileInputStream("c:\\ultimaConfiguracion.properties");
+					prop.load(fis);
+				} catch(IOException ex) {
+					System.out.println(ex.toString());
+				}
+		 
+				// Acceder a las propiedades por su nombre
+				System.out.println("Propiedades por nombre:");
+				System.out.println("-----------------------");
+				System.out.println( prop.getProperty( "listaRepVideos" ) );
+				System.out.println( prop.getProperty( "perdirCarpeta()" ) );
+				System.out.println( prop.getProperty( "miVentana.getSize()" ) );
+				
+				for (Enumeration<Object> en = prop.keys(); en.hasMoreElements() ; ) {
+					Object obj = en.nextElement();
+					System.out.println(obj + ": " + prop.getProperty(obj.toString()));
+				}
 			}
 		});
+		
 		
 		// Eventos del propio player
 		mediaPlayer.addMediaPlayerEventListener( 
@@ -331,7 +382,77 @@ public class VideoPlayer extends JFrame {
 		tfPropComentarios.addFocusListener( fl );
 		tfPropTitulo.addFocusListener( fl );
 		
+
+		// BOTON LOAD
+		botones.get(BotonDeLR.LOAD.ordinal()).addActionListener( new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				pedirFichero();
+				leerDeFicheroSerializado( "fichero" );
+			}
+		});
+
+		// BOTON SAVE
+		botones.get(BotonDeLR.SAVE.ordinal()).addActionListener( new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				File f = new File("fichero");
+				if( pedirFichero() != null ) {
+					pedirFichero();
+				} else {
+					FileFilter filter = new FileNameExtensionFilter("VPD File","vpd");
+					filter.accept( f );
+				}
+			}
+		});
+
+		// BOTON SAVEAS
+		botones.get(BotonDeLR.SAVEAS.ordinal()).addActionListener( new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				leerDeFicheroSerializado( ".vpd" );
+			}
+		});
+		
+		// Key listener ctrl+n, ctrl+f, ctrl+t
+		KeyListener kl = new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent event) {
+				validateKey(event);
+			}
+
+			@Override
+			public void keyTyped(KeyEvent event) {
+				validateKey(event);
+			}
+			private void validateKey(KeyEvent event) {
+
+				if(!Character.isDigit(event.getKeyChar())) {
+					event.consume();
+				}
+
+				// Nombre de archivo
+				if(event.getKeyChar()==KeyEvent.VK_CONTROL&& event.getKeyChar()==KeyEvent.VK_N) { // ctrl + n
+					MergeSort( lCanciones, 0, lCanciones.getComponentCount()-1);
+				}
+
+				// Fecha de archivo
+				if(event.getKeyChar()==KeyEvent.VK_CONTROL&& event.getKeyChar()==KeyEvent.VK_F) { // ctrl + f
+					MergeSort( lCanciones, 0, lCanciones.getComponentCount()-1);
+				}
+
+				// Tamaño de archivo
+				if(event.getKeyChar()==KeyEvent.VK_CONTROL&& event.getKeyChar()==KeyEvent.VK_T) { // ctrl + t
+					MergeSort( lCanciones, 0, lCanciones.getComponentCount()-1);
+				}
+			}
+
+		};
+		
+		miVentana.addKeyListener( kl );
+
 	}
+	
 		private void visualizaTiempoRep() {
 			pbVideo.setValue( (int) (10000.0 * 
 					mediaPlayer.getTime() /
@@ -386,16 +507,12 @@ public class VideoPlayer extends JFrame {
 	
 	private static File pedirFichero() {
 		File f = new File( "fichero" );
-		FileNameExtensionFilter fnef = new FileNameExtensionFilter(".vpd");
 		JFileChooser chooser = new JFileChooser( f );
-		int returnVal = chooser.showOpenDialog( null );
-		
-		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			chooser.setFileFilter( fnef );
-			return chooser;
-		} else {
-			return null;
-		}
+		FileFilter filter = new FileNameExtensionFilter("VPD File","vpd");
+		chooser.setFileFilter(filter);
+		chooser.showOpenDialog( null );
+		File file = chooser.getSelectedFile();
+		return file;
 	}
 
 		private static String ficheros;
@@ -407,6 +524,11 @@ public class VideoPlayer extends JFrame {
 	 * 				el segundo el path donde encontrarlos.  Si no se suministran, se piden de forma interactiva. 
 	 */
 	public static void main(String[] args) {
+		
+		BaseDeDatos.initBD( "vpd.bd" );
+		BaseDeDatos.crearTablaBD();
+		
+		
 		// Para probar con otro directorio descomentar estas dos líneas y poner los valores deseados:
 		// (Si se pasan argumentos al main, los usará)
 		if (args==null || args.length==0) 
@@ -444,6 +566,98 @@ public class VideoPlayer extends JFrame {
 			});
 		} catch (InvocationTargetException | InterruptedException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public static ArrayList<FicheroMultimedia> leerDeFicheroSerializado( String nomFic ) {
+		ArrayList<FicheroMultimedia> fichMM = new ArrayList<FicheroMultimedia>();
+		ObjectInputStream ois = null;
+		try {
+			ois = new ObjectInputStream( new FileInputStream(nomFic) );
+			while (true) {
+				FicheroMultimedia fMM = (FicheroMultimedia) ois.readObject();
+				fichMM.add( fMM );
+			}
+		} catch (EOFException e) {
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (ois!=null)
+				try {
+					ois.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+		}
+		return fichMM;
+	}
+	
+	private JList<String> MergeSort( JList<String> lista, int inicial, int n ) { // inicial y n son índices
+    	
+		if ( n==0 ) { // Caso base
+			inicial = 0;
+			System.out.println("La lista ya está ordenada");
+			return lCanciones;
+		} else { // Caso recursivo
+			
+			int m = (inicial+n)/2;	// m --> Punto medio
+			int m1 = (m-1)+1;		// Primera parte, de inicio a m
+			int m2 = n-m;			// Segunda parte, de m+1 a n
+			
+			JList<String> lista1 = new JList<String>();
+			JList<String> lista2 = new JList<String>();
+			
+			for (int i = 0; i < m1; i++) {
+				lista1.add(null, inicial+i);
+			}
+			
+			for (int i = 0; i < m2; i++) {
+				lista2.add(null, m + 1 +i);
+			}
+			
+			// Índice inicial de las dos sublistas
+	        int i = 0, j = 0;
+	        
+	        // Índice inicial de la sublista juntada
+	        int k = inicial;
+	        
+	        JList<String> listaFinal = new JList<String>();
+	        
+	        while (i < m1 && j < m2) {
+	        	
+	        	if( lista1.getComponent(i) != null && lista2.getComponent(j) != null ) {
+	        		
+	        		if (i <= j) {
+//	        			listaFinal.add( null, lista1.getComponent(i) != null );
+	        			MergeSort(listaFinal, inicial, m1);
+    	                i++;
+	        		} else {
+//    	                listaFinal.add( null, lista2.getComponent(i) != null );
+	        			MergeSort(listaFinal, m2, n);
+    	                j++;
+	        		}
+	        		
+	            } else {
+	            	return null;
+	            }
+	            k++;
+	        }
+	 
+	        // Copiar algun elemento que haya podido escaparse
+	        while (i < m1) {
+	        	MergeSort(listaFinal, inicial, m1);
+	            i++;
+	            k++;
+	        }
+	 
+	        // Copiar algun elemento que haya podido escaparse
+	        while (j < m2) {
+	        	MergeSort(listaFinal, m2, n);
+	            j++;
+	            k++;
+	        }
+			
+			return listaFinal;
 		}
 	}
 	
