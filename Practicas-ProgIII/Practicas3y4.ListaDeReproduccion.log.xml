@@ -1,26 +1,28 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2020-11-14T21:21:24</date>
-  <millis>1605385284726</millis>
+  <date>2020-11-17T17:35:58.998652500Z</date>
+  <millis>1605634558998</millis>
+  <nanos>652500</nanos>
   <sequence>0</sequence>
   <logger>Practicas3y4.ListaDeReproduccion</logger>
   <level>INFO</level>
   <class>Practicas3y4.ListaDeReproduccion</class>
   <method>&lt;clinit&gt;</method>
-  <thread>15</thread>
+  <thread>17</thread>
   <message></message>
 </record>
 <record>
-  <date>2020-11-14T21:21:24</date>
-  <millis>1605385284737</millis>
+  <date>2020-11-17T17:35:59.085765800Z</date>
+  <millis>1605634559085</millis>
+  <nanos>765800</nanos>
   <sequence>1</sequence>
   <logger>Practicas3y4.ListaDeReproduccion</logger>
   <level>INFO</level>
   <class>Practicas3y4.ListaDeReproduccion</class>
   <method>&lt;clinit&gt;</method>
-  <thread>15</thread>
-  <message>November 14, 2020 9:21:24 PM CET</message>
+  <thread>17</thread>
+  <message>17 de noviembre de 2020, 18:35:59 CET</message>
 </record>
 </log>

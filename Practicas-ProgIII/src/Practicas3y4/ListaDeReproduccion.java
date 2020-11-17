@@ -322,7 +322,8 @@ public class ListaDeReproduccion implements ListModel<String>, Serializable {
 		}
 	}
 	
-	public void anyadeFicheros( String carpetaFicheros, String filtroFicheros ) {
+	public int anyadeFicheros( String carpetaFicheros, String filtroFicheros ) {
+		int numFicheros = 0;
 		Pattern pFics = Pattern.compile( filtroFicheros, Pattern.CASE_INSENSITIVE );
 		File fInic = new File(carpetaFicheros); 
 		if (fInic.isDirectory()) {
@@ -331,8 +332,12 @@ public class ListaDeReproduccion implements ListModel<String>, Serializable {
 				if (f.isFile() && pFics.matcher(f.getName()).matches() ) { // Si cumple el patr�n, se a�ade
 					logger.log( Level.INFO, "A�adido v�deo a lista de reproducci�n: " + f.getName() );
 					add( f );
+					filtroFicheros = "Fichero " + f;
+					anyadeFicheros(carpetaFicheros, filtroFicheros);
 				}
+				numFicheros++; // Suma el numero de ficheros anyadidos para saber el total
 			}
 		}
+		return numFicheros;
 	}
 }
