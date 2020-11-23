@@ -3,6 +3,8 @@ package Practica4;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import uk.co.caprica.vlcj.binding.support.size_t;
+
 public class Recursividad {
 
 	public static void main(String[] args) {
@@ -144,7 +146,7 @@ public class Recursividad {
 	/* Recibe un long y devuelve la conversión de ese long a 
 	 * hexadecimal, de forma recursiva.
 	 */
-	public static String longAHexa( long numeroLong ) { // TODO recursividad
+	public static String longAHexa( long numeroLong ) {
 
 		if(numeroLong == 0 ) { // Caso base
 
@@ -152,43 +154,41 @@ public class Recursividad {
 			return numero;
 
 		} else { // Caso recursivo
-			
-			String hexadecimal=""; 
 
-			String numString = String.valueOf( numeroLong );
-			int num = Integer.parseInt( numString );
-
-			int resto;
-
+			String hexadecimal="";
+			int num = Integer.parseInt( String.valueOf( numeroLong ) );
+			int resto = num % 16;
 			char hexa[]={'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
-
-			while(num>0) {
-				resto=num%16;
-				hexadecimal=hexa[resto]+hexadecimal; 
-				num=num/16;
-			}
-			return hexadecimal;
+			
+			hexadecimal = hexa [ resto ] + hexadecimal;
+			num = num / 16;
+			return longAHexa( Long.valueOf( num ) ) + hexadecimal;
 		}
 
 	}
 
 
 
-	/* Recibe un fichero de texto y devuelve un ArrayList de Strings con
+	/* Recibe un ArrayList y devuelve un ArrayList de Strings con
 	 * todas las palabras del fichero de texto en orden inverso a como 
 	 * aparecen, de forma recursiva.
 	 */
-	public static ArrayList<String> sacaPalabras( ArrayList<String> lista) { // TODO recursividad y repasar
+	public static ArrayList<String> sacaPalabras( ArrayList<String> lista) {
+		
+		ArrayList<String> ListaSacaPalabras = new ArrayList<>();
 		
 		if(lista.size() <= 1) {
 			
 			return lista;
 		
 		} else {
-		
-			Collections.reverse(lista);
-			return lista;
-		
+			
+			String elemento = lista.get( lista.size() - 1 );
+			ListaSacaPalabras.add( elemento );
+			lista.remove( elemento );
+			
+			ListaSacaPalabras.addAll( sacaPalabras( lista ) );
+			return ListaSacaPalabras;
 		}
 		
 	}

@@ -1,30 +1,29 @@
 package Practica4;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 public class Pruebas {
 
 	public static void main(String[] args) {
-		ArrayList<String> listaPalabras = new ArrayList<>();
-		listaPalabras.add( "Ainhoa" );
-		listaPalabras.add( "Bilbao" );
-		listaPalabras.add( "Egia" );
-		listaPalabras.add( "Programacion" );
-		listaPalabras.add( "Telematica" );
-		listaPalabras.add( "Estadistica" );
-		listaPalabras.add( "Ecuaciones" );
-		listaPalabras.add( "Bases" );
-		listaPalabras.add( "Expresion" );
-		
-		System.out.println( "Al derecho: " + listaPalabras);
-		System.out.println( "Al reves: " + sacaPalabras( listaPalabras ) );
+		System.out.println( longAHexa( 123L ) );
 	}
 	
-	public static ArrayList<String> sacaPalabras( ArrayList<String> lista) { // TODO recursividad y repasar
-		
-		Collections.reverse(lista);
-		return lista;
-		
+	public static String longAHexa( long numeroLong ) {
+
+		if(numeroLong == 0 ) { // Caso base
+
+			String numero = Long.toString( numeroLong );
+			return numero;
+
+		} else { // Caso recursivo
+
+			String hexadecimal="";
+			int num = Integer.parseInt( String.valueOf( numeroLong ) );
+			int resto = num % 16;
+			char hexa[]={'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
+			
+			hexadecimal = hexa [ resto ] + hexadecimal;
+			num = num / 16;
+			return longAHexa( Long.valueOf( num ) ) + hexadecimal;
+		}
+
 	}
 }
