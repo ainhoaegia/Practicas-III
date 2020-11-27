@@ -3,13 +3,22 @@ package Practica4;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import uk.co.caprica.vlcj.binding.support.size_t;
-
 public class Recursividad {
 
 	public static void main(String[] args) {
 		
 		// ARRAYLIST PARA LOS METODOS 4.4, 4.5, 4.6
+		
+		ArrayList<String> listaPalabrasM3 = new ArrayList<>();
+		listaPalabrasM3.add( "Ainhoa" );
+		listaPalabrasM3.add( "Bilbao" );
+		listaPalabrasM3.add( "Egia" );
+		listaPalabrasM3.add( "Programacion" );
+		listaPalabrasM3.add( "Telematica" );
+		listaPalabrasM3.add( "Estadistica" );
+		listaPalabrasM3.add( "Ecuaciones" );
+		listaPalabrasM3.add( "Bases" );
+		listaPalabrasM3.add( "Expresion" );
 		
 		ArrayList<String> listaPalabras = new ArrayList<>();
 		listaPalabras.add( "Ainhoa" );
@@ -20,7 +29,11 @@ public class Recursividad {
 		listaPalabras.add( "Estadistica" );
 		listaPalabras.add( "Ecuaciones" );
 		listaPalabras.add( "Bases" );
+		listaPalabras.add( "Bases" );
+		listaPalabras.add( "Bases" );
+		listaPalabras.add( "Bases" );
 		listaPalabras.add( "Expresion" );
+		
 
 		// METODO 4.1
 
@@ -35,7 +48,8 @@ public class Recursividad {
 
 		System.out.println( "INVIERTE PALABRAS:" );
 		System.out.println( "Sin invertir: Segundo método a ejecutar");
-		System.out.println( "Invirtiendo: " + String.valueOf( invertirPalabras( "Segundo método a  ejecutar".toCharArray() ) ) );
+		System.out.println( "Invertido:");
+		invertirPalabras( "Segundo método a ejecutar", 0, "" );
 		System.out.println( " " );
 		System.out.println( "----------------------------------" );
 		System.out.println( " " );
@@ -52,8 +66,8 @@ public class Recursividad {
 		// METODO 4.4
 
 		System.out.println( "SACA PALABRAS:");
-		System.out.println( "Al derecho: " + listaPalabras);
-		System.out.println( "Al reves: " + sacaPalabras( listaPalabras ) );
+		System.out.println( "Al derecho: " + listaPalabrasM3 );
+		System.out.println( "Al reves: " + sacaPalabras( listaPalabrasM3 ) );
 		System.out.println( " " );
 		System.out.println( "----------------------------------" );
 		System.out.println( " " );
@@ -71,9 +85,10 @@ public class Recursividad {
 		// METODO 4.6
 
 		System.out.println( "BUSCA PALABRA:");
-		System.out.println( listaPalabras );
-		System.out.println( "Palabra a buscar: Egia" );
-		System.out.println( buscaPalabra( listaPalabras, "Egia" ) );
+		Collections.sort( listaPalabras );
+		System.out.println( "Lista: " + listaPalabras );
+		System.out.println( "Palabra a buscar: Bases" );
+		System.out.println( "Posicion: " + buscaPalabra( listaPalabras, "Bases", 0, listaPalabras.size()-1 ) );
 		System.out.println( " " );
 		System.out.println( "----------------------------------" );
 		System.out.println( " " );
@@ -102,46 +117,19 @@ public class Recursividad {
 	 * (considerando los separadores habituales espacio, tabulador, 
 	 * salto de línea, símbolos de puntuación), de forma recursiva.
 	 */
-	public static char[] invertirPalabras( char[]  palabras ) { 
-		
-		if (palabras == "".toCharArray()) { // Caso base
-			
-			return "".toCharArray();
-		
-		} else { // Caso recursivo
-
-			int inicio = 0;
-			for (int fin = 0; fin < palabras.length; fin++) {
-				if (palabras[fin] == ' ') 
-				{
-					invertir(palabras, inicio, fin);
-					inicio = fin + 1;
-				}
+	private static void invertirPalabras( String frase, int numLetra, String palabra) {
+		if(numLetra == frase.length() ) {
+			System.out.println( palabra );
+		} else {
+			char car = frase.charAt( numLetra );
+			if(car==' ') {
+				invertirPalabras( frase, numLetra + 1, "" );
+				System.out.println( palabra );
+			} else {
+				invertirPalabras(frase, numLetra + 1, palabra + car );
 			}
-
-			invertir(palabras, inicio, palabras.length - 1);
-			invertir(palabras, 0, palabras.length - 1);
-			char[] alReves = palabras;
-			return alReves;
-		}
-
-	}
-
-	static void invertir(char str[], int inicio, int fin) {
-
-		char temp;
-
-		while (inicio <= fin) {
-
-			temp = str[inicio];
-			str[inicio] = str[fin];
-			str[fin] = temp;
-			inicio++;
-			fin--;
 		}
 	}
-
-	
 	
 	/* Recibe un long y devuelve la conversión de ese long a 
 	 * hexadecimal, de forma recursiva.
@@ -199,17 +187,35 @@ public class Recursividad {
 	 * y devuelve ese arraylist ordenado alfabéticamente por el método quicksort,
 	 * de forma recursiva (observa que puede haber palabras repetidas).
 	 */
-	public static ArrayList<String> ordenaQuick( ArrayList<String> lista) { // TODO recursividad
+	public static ArrayList<String> ordenaQuick( ArrayList<String> lista) { 
 		
-		if(lista.size() <= 1) {
-		
+		if (lista.isEmpty()) { // Caso base
 			return lista;
-		
 		} else {
-		
-			Collections.sort(lista);
+			ArrayList<String> letraMenor = new ArrayList<String>();
+			ArrayList<String> letraMayor = new ArrayList<String>();
+			
+			String primeraLetra = lista.get(0);
+			String letra;
+			int i;
+			
+			for (i=1;i<lista.size();i++) {
+				
+				letra=lista.get(i);
+				if (letra.compareTo(primeraLetra)<0) {
+					letraMenor.add(letra);
+				} else {
+					letraMayor.add(letra);
+				}
+			}
+			
+			letraMenor=ordenaQuick(letraMenor);
+			letraMayor=ordenaQuick(letraMayor); 
+			letraMenor.add(primeraLetra);        
+			letraMenor.addAll(letraMayor);    
+			lista = letraMenor;            
+
 			return lista;
-		
 		}
 	}
 
@@ -220,17 +226,31 @@ public class Recursividad {
 	 * posición de la última ocurrencia). De forma recursiva y utilizando 
 	 * un proceso de coste logarítmico.
 	 */
-	private static int buscaPalabra( ArrayList<String> palabrasOrdenadas, String palabraABuscar ) { // TODO recursividad
+	private static int buscaPalabra( ArrayList<String> palabrasOrdenadas, String palabraABuscar, int ini, int fin ) {
+//		System.out.println( ini + ", " + fin );
 		
-		if(palabrasOrdenadas.size() < 1) {
+		if ( ini > fin) {
+			return -1;
+		}
 		
-			return 0;
+		if ( ini == fin) {
+			if (palabrasOrdenadas.get(ini).equals( palabraABuscar )) {
+				return ini;
+			} else {
+				return -1;
+			}
+		}
+		
+		int medio = (ini+fin+1)/2;
+		
+		if(palabraABuscar.compareTo(palabrasOrdenadas.get( medio )) >= 0) {
+			
+			return buscaPalabra(palabrasOrdenadas, palabraABuscar, medio, fin);
 		
 		} else {
+			
+			return buscaPalabra(palabrasOrdenadas, palabraABuscar, ini, medio-1);
 		
-			int n = 0;
-			n = palabrasOrdenadas.indexOf(palabraABuscar) + 1;
-			return n;
 		}
 	}
 }
